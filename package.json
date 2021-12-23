@@ -1,0 +1,29 @@
+{
+  "name": "ms-authentication",
+  "version": "1.0.0",
+  "description": "Microservice criado para o bootcamp do banco Inter",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "node ./",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevVitorPedra/DIO-microservices-nadojs.git"
+  },
+  "author": "Vitor dos Santos Pedra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevVitorPedra/DIO-microservices-nadojs/issues"
+  },
+  "homepage": "https://github.com/DevVitorPedra/DIO-microservices-nadojs#readme",
+  "dependencies": {
+    "-": "^0.0.1",
+    "g": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.4",
+    "typescript": "^4.5.4"
+  }
+}
