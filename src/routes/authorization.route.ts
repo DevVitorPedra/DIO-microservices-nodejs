@@ -1,7 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
 import ForbiddenError from "../models/errors/forbidden.error.models";
-import userRepository from "../repositories/user.repository";
 import JWT from 'jsonwebtoken'
 import basicAuthMiddleware from "../middlewares/basic-authentication.middleware";
 const authorizationRoute = Router()
@@ -17,7 +16,7 @@ authorizationRoute.post('/token',basicAuthMiddleware,async (req:Request,res:Resp
         }
         const JWTPayload = {userName:user.username}
         const JWTOptions = {subject:user?.uuid}
-        const JWTSecretKey ='my_key'
+        const JWTSecretKey ='my_secret_key'
         const jwt = JWT.sign(JWTPayload,JWTSecretKey ,JWTOptions)
 
         res.status(StatusCodes.OK).json({token:jwt})

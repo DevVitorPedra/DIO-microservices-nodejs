@@ -1,7 +1,7 @@
 import { Router,Request,Response,NextFunction } from "express";
 import {StatusCodes} from 'http-status-codes'
+import bearerAuthMiddleware from "../middlewares/bearer-atuhentication.middleware";
 import userRepository from "../repositories/user.repository";
-
 
 const usersRoute = Router();
 usersRoute.get('/users', async(req:Request,res:Response,next:NextFunction)=>{
