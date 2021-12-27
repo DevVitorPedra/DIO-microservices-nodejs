@@ -1,7 +1,7 @@
 class DatabaseError extends Error {
     constructor(
        public message:string,
-    public error: Error,
+    public error?: any,
     ){
     super(message)
         
