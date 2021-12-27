@@ -8,10 +8,12 @@ import bearerAuthMiddleware from './middlewares/bearer-atuhentication.middleware
 dotenv.config()
 const app = express()
 app.use(express.json())
+
+//application routes
 app.use(statusRoute)
 app.use(authorizationRoute)
 app.use(bearerAuthMiddleware,usersRoute)
-
+//application 
 app.use(errorHandler)
 
 app.listen(process.env.PORT,()=>{
