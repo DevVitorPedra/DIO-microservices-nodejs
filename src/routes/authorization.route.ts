@@ -1,26 +1,26 @@
 import { Router, Request, Response, NextFunction } from "express";
+import { StatusCodes } from "http-status-codes";
 import ForbiddenError from "../models/errors/forbidden.error.models";
 import userRepository from "../repositories/user.repository";
+import JWT from 'jsonwebtoken'
+import basicAuthMiddleware from "../middlewares/basic-authentication.middleware";
 const authorizationRoute = Router()
 
 
-authorizationRoute.post('/token',async (req:Request,res:Response,next:NextFunction)=>{
-     try {
-        const authorizationHeader= req.headers['authorization']
-        if(!authorizationHeader){
-            throw new ForbiddenError("credenciais inválidas")
-        }
-       const [authenticationType, token] = authorizationHeader.split(' ')
-       if(authenticationType!=='Basic' || !token ){
-           throw new ForbiddenError("Tipo de Autenticação inválido")
-       }
-        const tokenContent =  Buffer.from(token,'base64').toString('utf-8')
+//criando seu token com JWT
 
-        const [username,password] = tokenContent.split(':')
-        if(!username || !password){
-            throw new ForbiddenError("Credenciais inválidas")
+authorizationRoute.post('/token',basicAuthMiddleware,async (req:Request,res:Response,next:NextFunction)=>{
+     try {
+        const user = req.user
+        if(!user){
+            throw new ForbiddenError("Usuário não informado")
         }
-        const user = await userRepository.findUserByUsernameAndPassword(username,password)
+        const JWTPayload = {userName:user.username}
+        const JWTOptions = {subject:user?.uuid}
+        const JWTSecretKey ='my_key'
+        const jwt = JWT.sign(JWTPayload,JWTSecretKey ,JWTOptions)
+
+        res.status(StatusCodes.OK).json({token:jwt})
      } catch (error) {
          next(error)
      }

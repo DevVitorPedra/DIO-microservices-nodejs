@@ -3,8 +3,6 @@
 import  DatabaseError  from "../models/errors/database.error.models"
 import db from "../db"
 import User from "../models/user.model"
-import { nextTick } from "process"
-
 class UserRepository{
    async  findAllUsers (): Promise<User[]> {
     try {
@@ -24,7 +22,7 @@ class UserRepository{
        } catch (error) {
         throw new DatabaseError("erro na consulta por ID", error)
        }
-    }
+      }
     async createUser(user:User): Promise<string> {
      try {
         const query = `INSERT INTO application_user( username,password) VALUES ($1, crypt($2, $3)) RETURNING uuid`;
@@ -61,10 +59,9 @@ class UserRepository{
     }
     async findUserByUsernameAndPassword(username:string, password:string):Promise<User | null>{
      try {
-      const query = `SELECT uuid,username FROM application_user 
-      WHERE username = $1 and password = crypt($2, $3)
-      `;
-      const values = [username,password,process.env.MY_SALT];
+      const query = `SELECT uuid, username FROM application_user 
+      WHERE username = $1 AND password = crypt($2, $3)`;
+      const values = [username, password, process.env.MY_SALT];
       const {rows} = await db.query<User>(query,values)
       const [user] = rows
       return !user ? null : user
